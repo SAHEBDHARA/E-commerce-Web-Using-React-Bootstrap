@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Container, Row, Col, Card } from 'react-bootstrap';
+import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 
-const ProductCart = ({ title, price, imageUrl, quantity }) => {
+const ProductCart = ({ title, price, imageUrl, quantity, addToCart  }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   const handleCardHover = () => {
@@ -30,6 +30,14 @@ const ProductCart = ({ title, price, imageUrl, quantity }) => {
     zIndex: 1, // Set a higher z-index to keep it above the image
   };
 
+
+  const addItemToCart = () => {
+    // Add the logic to add an item to the cart
+    // ...
+    // Call the addToCart function to update the count
+    addToCart();
+  };
+
   return (
     <Col xs={4}>
       <Card
@@ -50,8 +58,9 @@ const ProductCart = ({ title, price, imageUrl, quantity }) => {
           <Card.Title>{title}</Card.Title>
           <Card.Text>
             <p>Price: ${price}</p>
-            <p>Quantity: {quantity}</p>
+            <p>Quantity: {quantity}</p> 
           </Card.Text>
+          <Button onClick={addItemToCart} >ADD TO CART</Button>
         </Card.Body>
       </Card>
     </Col>

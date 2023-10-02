@@ -2,7 +2,7 @@ import React from 'react'
 import ProductCart from './ProductCart'
 import { Container, Row, Col, Card } from 'react-bootstrap';
 
-const Product = () => { 
+const Product = ({addToCart}) => { 
 
     const cartElements = [
 
@@ -47,7 +47,7 @@ const Product = () => {
     <Container className='mt-3'>
     <Row>
       {cartElements.map((product, index) => (
-        <ProductCart key={index} {...product} />
+        <ProductCart  addToCart={addToCart}  key={index} {...product} />
       ))}
     </Row>
   </Container>
