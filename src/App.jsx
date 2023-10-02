@@ -4,6 +4,7 @@ import Nav from 'react-bootstrap/Nav';
 import Counter from './Components/Counter/Counter';
 import Register from './Components/Registration/Registration';
 import Userlist from './Components/Users/userLIst';
+import Product from './Components/Productcart/Product';
 
 function App() {
 
@@ -16,7 +17,8 @@ function App() {
       </Navbar>
       {/* <Counter/> */}
       {/* <Register/> */}
-      <Userlist/>
+      {/* <Userlist/> */}
+      <Product/>
     </>
   )
 }
