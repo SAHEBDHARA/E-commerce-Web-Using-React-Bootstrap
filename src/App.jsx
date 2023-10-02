@@ -9,6 +9,7 @@ import Register from './Components/Registration/Registration';
 import Userlist from './Components/Users/userLIst';
 import Product from './Components/Productcart/Product';
 import CartIcon from './Components/Cart/CartIcon';
+import CartModal from './Components/Modal/Modal';
 
 
 
@@ -16,9 +17,19 @@ import CartIcon from './Components/Cart/CartIcon';
 function App() {
 
   const [cartCount, setCartCount] = useState(0);
+  const [showCartModal, setShowCartModal] = useState(true);
 
   const addToCart = () => {
     setCartCount(cartCount + 1);
+  };
+
+  const openCartModal = () => {
+    setShowCartModal(true);
+    console.log('cart is clicked ')
+  };
+
+  const closeCartModal = () => {
+    setShowCartModal(false);
   };
 
   return (
@@ -33,7 +44,7 @@ function App() {
           </Nav>
           <Nav>
             {/* Include the CartIcon component */}
-            <CartIcon count={cartCount} />
+            <CartIcon count={cartCount} onTap={openCartModal} />
           </Nav>
         </Container>
       </Navbar>
@@ -41,6 +52,7 @@ function App() {
       {/* <Register/> */}
       {/* <Userlist/> */}
       <Product addToCart={addToCart} />
+      <CartModal show={showCartModal} handleClose={closeCartModal} />
     </>
   );
 }

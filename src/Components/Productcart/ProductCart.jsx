@@ -15,13 +15,14 @@ const ProductCart = ({ title, price, imageUrl, quantity, addToCart  }) => {
   const cardStyle = {
     position: 'relative',
     overflow: 'hidden',
+    borderradius: '35px'
   
   };
 
   const imageStyle = {
     width: '100%',
     height: '250px',
-    transform: isHovered ? 'scale(1.2)' : 'scale(1)',
+    transform: isHovered ? 'scale(1.4)' : 'scale(1)',
     transition: 'transform 0.7s',
   };
 
