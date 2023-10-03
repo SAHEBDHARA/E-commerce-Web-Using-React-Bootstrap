@@ -12,6 +12,7 @@ import Product from "./Components/Productcart/Product";
 import CartModal from "./Components/Modal/Modal";
 import CartProvider from "./Context/CartProvider";
 import About from "./pages/About/About";
+import Home from "./pages/Home/Home";
 
 function App() {
   const [cartCount, setCartCount] = useState(0);
@@ -31,36 +32,18 @@ function App() {
 
   return (
     <CartProvider>
-    {/* <Router>
-      <Pagenavbar openCartModal={openCartModal} />
+      <BrowserRouter>
+        <Pagenavbar openCartModal={openCartModal} />
+        <CartModal show={showCartModal} handleClose={closeCartModal} />
 
-      <Switch>
-        <Route path="/" exact>
-          <Product addToCart={addToCart} />
-        </Route>
-        <Route path="/counter">
-          <Counter />
-        </Route>
-        <Route path="/register">
-          <Register />
-        </Route>
-        <Route path="/userlist">
-          <Userlist />
-        </Route>
-      </Switch>
-
-      <CartModal show={showCartModal} handleClose={closeCartModal} />
-    </Router> */}
-    <BrowserRouter>
-    <Pagenavbar/>
-    <Routes>
-    <Route path="/" element={<Product addToCart={addToCart} />}/>
-    <Route path="/users" element={<Userlist/>}/>
-    <Route path="/register" element={<Register/>}/>
-    <Route path="/about" element={<About/>}/>
-    </Routes>
-    </BrowserRouter>
-  </CartProvider>
+        <Routes>
+          <Route path="/products" element={<Product addToCart={addToCart} />} />
+          <Route path="/users" element={<Home />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/about" element={<About />} />
+        </Routes>
+      </BrowserRouter>
+    </CartProvider>
   );
 }
 
