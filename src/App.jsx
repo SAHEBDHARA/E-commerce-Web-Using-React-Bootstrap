@@ -13,6 +13,7 @@ import CartModal from "./Components/Modal/Modal";
 import CartProvider from "./Context/CartProvider";
 import About from "./pages/About/About";
 import Home from "./pages/Home/Home";
+import SingleProduct from "./Components/Single/SingleProduct";
 
 function App() {
   const [cartCount, setCartCount] = useState(0);
@@ -38,9 +39,10 @@ function App() {
 
         <Routes>
           <Route path="/products" element={<Product addToCart={addToCart} />} />
-          <Route path="/users" element={<Home />} />
+          <Route path="/" element={<Home />} />
           <Route path="/register" element={<Register />} />
           <Route path="/about" element={<About />} />
+          <Route path="/products/:productId" element={<SingleProduct />} />
         </Routes>
       </BrowserRouter>
     </CartProvider>

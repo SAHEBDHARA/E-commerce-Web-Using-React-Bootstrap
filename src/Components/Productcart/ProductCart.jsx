@@ -1,8 +1,14 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+
+
 
 const ProductCart = ({ title, price, imageUrl, quantity, addToCart  }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const navigate = useNavigate();
+
+
 
   const handleCardHover = () => {
     setIsHovered(true);
@@ -33,12 +39,14 @@ const ProductCart = ({ title, price, imageUrl, quantity, addToCart  }) => {
 
 
   const addItemToCart = () => {
-    // Add the logic to add an item to the cart
-    // ...
-    // Call the addToCart function to update the count
+ 
     addToCart();
   };
-
+  const viewProduct = (title) => {
+    // Replace 'product_name' with the actual product name or identifier
+    navigate(`/products/${title}`);
+  };
+  //${product_name}
   return (
     <Col xs={4}>
       <Card
@@ -62,6 +70,7 @@ const ProductCart = ({ title, price, imageUrl, quantity, addToCart  }) => {
             <p>Quantity: {quantity}</p> 
           </Card.Text>
           <Button onClick={addItemToCart} >ADD TO CART</Button>
+          <Button className='m-3' onClick={() => viewProduct(title)}>View</Button>
         </Card.Body>
       </Card>
     </Col>
