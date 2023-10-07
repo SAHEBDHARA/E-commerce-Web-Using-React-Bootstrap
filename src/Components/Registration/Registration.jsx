@@ -1,32 +1,41 @@
-import React from "react";
+import React, { useState } from "react";
 import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
-import { useState } from "react";
+import { usePrompt } from "use-prompt"; // Import the usePrompt hook
 
 const Register = () => {
+  const [state, setState] = useState({
+    user: {
+      username: "",
+      password: "",
+      email: "",
+    },
+  });
 
-    const [state, setState] = useState({
-        user: {
-            username: '',
-            password: '',
-            email: ''
+  const [isEntering, setIsEntering] = useState(false);
 
-        }
-    })
+  const updatedInput = (e) => {
+    setState({
+      ...state,
+      user: {
+        ...state.user,
+        [e.target.name]: e.target.value,
+      },
+    });
+  };
 
-    const updatedInput =(e)=>{
-        setState({
-            ...state,
-            user:{
-                ...state.user, 
-                [e.target.name] : e.target.value
-            }
-        })
-    }
+  const registered = () => {
+    console.log(state);
+  };
 
-    const registered =()=>{
-        console.log(state)
-    }
+  const onFocusHandler = () => {
+    setIsEntering(true);
+  };
 
+  // Use the usePrompt hook
+  usePrompt(
+    isEntering ,
+    "Are you sure you want to leave?"
+  );
 
   return (
     <div>
@@ -34,22 +43,42 @@ const Register = () => {
         <Row>
           <Col md={3}>
             <Card className="shadow-lg">
-              <Card.Header className="p-3" style={{ background: "#FFC107" }}>
+              <Card.Header
+                className="p-3"
+                style={{ background: "#FFC107" }}
+              >
                 <h1>Register</h1>
               </Card.Header>
-              <Card.Body style={{backgroundColor: '#FFE8A9'}}>
-                <Form>
+              <Card.Body style={{ backgroundColor: "#FFE8A9" }}>
+                <Form onFocus={onFocusHandler}>
                   <Form.Group className="mb-3">
-                    <Form.Control name="username" onChange={updatedInput} type="text" placeholder="username"/>
+                    <Form.Control
+                      name="username"
+                      onChange={updatedInput}
+                      type="text"
+                      placeholder="username"
+                    />
                   </Form.Group>
                   <Form.Group className="mb-3">
-                    <Form.Control name="email" onChange={updatedInput} type="email" placeholder="email"/>
+                    <Form.Control
+                      name="email"
+                      onChange={updatedInput}
+                      type="email"
+                      placeholder="email"
+                    />
                   </Form.Group>
                   <Form.Group className="mb-3">
-                    <Form.Control name="password" onChange={updatedInput} type="password" placeholder="password"/>
+                    <Form.Control
+                      name="password"
+                      onChange={updatedInput}
+                      type="password"
+                      placeholder="password"
+                    />
                   </Form.Group>
                   <Form.Group className="mb-3">
-                    <Button onClick={registered} variant="warning">Submit</Button>
+                    <Button onClick={registered} variant="warning">
+                      Submit
+                    </Button>
                   </Form.Group>
                 </Form>
               </Card.Body>
@@ -62,4 +91,3 @@ const Register = () => {
 };
 
 export default Register;
-
