@@ -1,23 +1,21 @@
+// CartContext.js
+
 import React, { createContext, useContext, useState } from 'react';
 
-// Create a CartContext
+// Create a new context
 const CartContext = createContext();
 
-// Custom hook to use the CartContext
-export function useCart() {
-  return useContext(CartContext);
-}
-
-// CartProvider component to wrap your app with
-export function CartProvider({ children }) {
+// Create a CartProvider component to manage the cart state
+export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
 
+
   // Function to add an item to the cart
-  const addToCart = (item) => {
-    setCartItems([...cartItems, item]);
+  const addToCart = (product) => {
+    setCartItems([...cartItems, product]);
   };
 
-  // Function to remove an item from the cart by index
+  // Function to remove an item from the cart
   const removeFromCart = (index) => {
     const updatedCart = [...cartItems];
     updatedCart.splice(index, 1);
@@ -34,4 +32,9 @@ export function CartProvider({ children }) {
       {children}
     </CartContext.Provider>
   );
-}
+};
+
+// Custom hook to access the cart context
+export const useCart = () => {
+  return useContext(CartContext);
+};

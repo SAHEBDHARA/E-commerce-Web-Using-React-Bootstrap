@@ -1,8 +1,18 @@
 import React from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import { useCart } from '../../store/cart-context';
 
 function CartModal({ show, handleClose }) {
+  const { cartItems, removeFromCart } = useCart();
+
+
+  const totalCartPrice = cartItems.reduce((total, currentItem) => {
+    return total + currentItem.price * currentItem.quantity;
+  }, 0);
+
+  console.log(totalCartPrice)
+
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
@@ -10,23 +20,25 @@ function CartModal({ show, handleClose }) {
       </Modal.Header>
       <Modal.Body>
 
-      <ul>
-  <li className="list-group-item d-flex justify-content-between align-items-center">
-    <span>
-      Item: <strong>this is item</strong>
-    </span>
-    <span>
-      Price: <strong>$300</strong>
-    </span>
-    <span>
-      Quantity: <strong>3</strong>
-    </span>
-    <button className="btn btn-danger">Remove</button>
-  </li>
-</ul>
+       {cartItems.map((item, index) => (
+            <li key={index} className="list-group-item d-flex justify-content-between align-items-center mb-2">
+              <span>
+                Item: <strong>{item.title}</strong>
+              </span>
+              <span>
+                Price: <strong>${item.price}</strong>
+              </span>
+            
+             
+              <button className="btn btn-danger" onClick={() => removeFromCart(item)}>
+                Remove
+              </button>
+            </li>
+          ))} 
 
 </Modal.Body>
       <Modal.Footer>
+        <div>Total Price: {totalCartPrice}</div>
         <Button variant="secondary" onClick={handleClose}>
           Close
         </Button>
@@ -37,5 +49,6 @@ function CartModal({ show, handleClose }) {
     </Modal>
   );
 }
+
 
 export default CartModal;

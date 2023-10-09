@@ -10,10 +10,11 @@ import Register from "./Components/Registration/Registration";
 import Userlist from "./Components/Users/userLIst";
 import Product from "./Components/Productcart/Product";
 import CartModal from "./Components/Modal/Modal";
-import CartProvider from "./Context/CartProvider";
 import About from "./pages/About/About";
 import Home from "./pages/Home/Home";
 import SingleProduct from "./Components/Single/SingleProduct";
+import { CartProvider } from "./store/cart-context.jsx";
+
 
 function App() {
   const [cartCount, setCartCount] = useState(0);
@@ -45,18 +46,9 @@ function App() {
           <Route path="/products/:productId" element={<SingleProduct />} />
         </Routes>
       </BrowserRouter>
-    </CartProvider>
+      </CartProvider>
   );
 }
 
 export default App;
 
-{
-  /* <Counter/> */
-}
-{
-  /* <Register/> */
-}
-{
-  /* <Userlist/> */
-}

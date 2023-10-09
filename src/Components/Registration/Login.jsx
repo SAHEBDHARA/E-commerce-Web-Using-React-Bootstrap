@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
 import { usePrompt } from "use-prompt"; // Import the usePrompt hook
 
-const Register = () => {
+const Login = () => {
   const [state, setState] = useState({
     user: {
+      username: "",
       password: "",
       email: "",
     },
@@ -38,7 +39,7 @@ const Register = () => {
 
   return (
     <div>
-      <Container className="mx-8 mt-4 h-full">
+      <Container className="mt-3">
         <Row>
           <Col md={3}>
             <Card className="shadow-lg">
@@ -51,12 +52,12 @@ const Register = () => {
               <Card.Body style={{ backgroundColor: "#FFE8A9" }}>
                 <Form onFocus={onFocusHandler}>
                   <Form.Group className="mb-3">
-                    {/* <Form.Control
+                    <Form.Control
                       name="username"
                       onChange={updatedInput}
                       type="text"
                       placeholder="username"
-                    /> */}
+                    />
                   </Form.Group>
                   <Form.Group className="mb-3">
                     <Form.Control

@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import { useCart } from '../../store/cart-context';
 
 
 
-const ProductCart = ({ title, price, imageUrl, quantity, addToCart  }) => {
+const ProductCart = ({ title, price, imageUrl, quantity  }) => {
   const [isHovered, setIsHovered] = useState(false);
   const navigate = useNavigate();
+  const {  addToCart } = useCart();
+
 
 
 
@@ -39,9 +42,9 @@ const ProductCart = ({ title, price, imageUrl, quantity, addToCart  }) => {
 
 
   const addItemToCart = () => {
- 
-    addToCart();
+    addToCart({ title, price, imageUrl, quantity });
   };
+
   const viewProduct = (title) => {
     // Replace 'product_name' with the actual product name or identifier
     navigate(`/products/${title}`);

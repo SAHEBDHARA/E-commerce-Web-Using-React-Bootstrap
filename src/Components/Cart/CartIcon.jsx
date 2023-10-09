@@ -1,24 +1,22 @@
 import React from 'react';
 import Nav from 'react-bootstrap/Nav';
-import CartContext from '../../Context/cart-context';
-import { useContext } from 'react';
+import { useCart } from '../../store/cart-context';
 
-function CartIcon({count, onTap}) {
+function CartIcon({ onTap}) {
+  const { cartItems } = useCart()
+  const itemCount = cartItems.length;
+  
 
-  const cartCtx = useContext(CartContext)
-  const numberofCartItems = cartCtx.items.reduce((currNum, item)=>{
-    return currNum + item.amount; 
-  },0 )
 
   const handleClick=()=>{
     onTap()
   }
   return (
-    <Nav.Link onClick={handleClick} href="#cart">
+    <Nav.Link onClick={handleClick} >
     <i className="fa fa-shopping-cart fa-lg"></i>
-   <span className="badge badge-pill badge-danger">{numberofCartItems}</span>
+   <span className="badge badge-pill badge-danger">{itemCount}</span>
   </Nav.Link>
   );
 }
 
-export default CartIcon;
+export default CartIcon;  

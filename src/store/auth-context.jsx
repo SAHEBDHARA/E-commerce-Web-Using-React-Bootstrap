@@ -1,71 +1,27 @@
-import React, { useState } from "react";
+// CartContext.js
+import React, { createContext, useContext, useState } from 'react';
 
-const Authcontext = React.createContext({
-  token: "",
-  isLoggedIn: false,
-  login: (token) => {},
-  logout: () => {},
-});
+const CartContext = createContext();
 
-export const AuthContextProvider = (props) => {
-  const initialToken = localStorage.getItem('token');
-  const [token, setToken] = useState(initialToken);
-  const userIsLoggedIn = !!token;
+export const CartProvider = ({ children }) => {
+  const [cart, setCart] = useState([]);
 
-
-  
-
-  // When the user logs in
-const loginHandler = (token) => {
-  const loginTime = new Date().getTime();
-  localStorage.setItem('token', token);
-  localStorage.setItem('loginTime', loginTime);
-};
-
-const isSessionExpired = () => {
-  const loginTime = parseInt(localStorage.getItem('loginTime'));
-  const currentTime = new Date().getTime();
-  const fiveMinutesInMillis = 5 * 60 * 1000; // 5 minutes in milliseconds
-
-  return currentTime - loginTime > fiveMinutesInMillis;
-};
-const checkSession = () => {
-  if (isSessionExpired()) {
-    // Session has expired
-    alert('Your session has expired. Please log in again.');
-    logout();
-  }
-};
-
-// Run the session check every 30 seconds (you can adjust the interval)
-setInterval(checkSession, 30000); // 30 seconds in milliseconds
-
-
-  const logoutHandler = () => {
-    setToken(null);
-    localStorage.removeItem('token');
-    localStorage.removeItem('loginTime');
+  const addToCart = (product) => {
+    setCart([...cart, product]);
   };
 
-  window.addEventListener('beforeunload', (event) => {
-    if (isSessionExpired()) {
-      event.preventDefault();
-      event.returnValue = ''; // Show a confirmation dialog if needed
-    }
-  });
-  
-
-  const contextValue = {
-    token: token,
-    isLoggedIn: userIsLoggedIn,
-    login: loginHandler,
-    logout: logoutHandler,
+  const removeFromCart = (product) => {
+    const updatedCart = cart.filter((item) => item !== product);
+    setCart(updatedCart);
   };
+
   return (
-    <Authcontext.Provider value={contextValue}>
-      {props.children}
-    </Authcontext.Provider>
+    <CartContext.Provider value={{ cart, addToCart, removeFromCart }}>
+      {children}
+    </CartContext.Provider>
   );
 };
 
-export default Authcontext;
+export const useCart = () => {
+  return useContext(CartContext);
+};
