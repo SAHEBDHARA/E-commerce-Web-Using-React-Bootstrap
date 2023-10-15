@@ -1,93 +1,88 @@
-import React, { useState } from "react";
-import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
-import { usePrompt } from "use-prompt"; // Import the usePrompt hook
+import React, { useState } from 'react';
+import './LoginForm.css'; // Import your CSS file
+import { useNavigate } from 'react-router-dom'; 
+import { useAuth } from '../../store/auth-context';
 
-const Login = () => {
-  const [state, setState] = useState({
-    user: {
-      username: "",
-      password: "",
-      email: "",
-    },
+function LoginForm() {
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
   });
+  const navigate = useNavigate();
+  const {login} = useAuth(); 
 
-  const [isEntering, setIsEntering] = useState(false);
-
-  const updatedInput = (e) => {
-    setState({
-      ...state,
-      user: {
-        ...state.user,
-        [e.target.name]: e.target.value,
-      },
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
     });
   };
 
-  const registered = () => {
-    console.log(state);
-  };
+  const handleLogin = async (e) => {
+    e.preventDefault();
 
-  const onFocusHandler = () => {
-    setIsEntering(true);
-  };
+    const apiKey = 'AIzaSyDPICmsyhxv2pWB2005nPacWgE4cSbqBAQ'; // Replace with your actual API key
+    const signInURL = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${apiKey}`;
 
-  // Use the usePrompt hook
-  usePrompt(
-    isEntering ,
-    "Are you sure you want to leave?"
-  );
+    try {
+      const response = await fetch(signInURL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+          returnSecureToken: true,
+        }),
+      });
+
+      if (response.ok) {
+        // Login successful, you can handle the success here
+        const responseData = await response.json();
+        console.log('Login successful:', responseData);
+        navigate('/'); // Navigate to the home page upon successful login
+        login({
+            username: formData.email,
+            password: formData.password,
+          });
+      } else {
+        // Login failed, handle errors here
+        const errorData = await response.json();
+        console.error('Login failed:', errorData);
+      }
+    } catch (error) {
+      console.error('An error occurred:', error);
+    }
+  };
 
   return (
-    <div>
-      <Container className="mt-3">
-        <Row>
-          <Col md={3}>
-            <Card className="shadow-lg">
-              <Card.Header
-                className="p-3"
-                style={{ background: "#FFC107" }}
-              >
-                <h1>Register</h1>
-              </Card.Header>
-              <Card.Body style={{ backgroundColor: "#FFE8A9" }}>
-                <Form onFocus={onFocusHandler}>
-                  <Form.Group className="mb-3">
-                    <Form.Control
-                      name="username"
-                      onChange={updatedInput}
-                      type="text"
-                      placeholder="username"
-                    />
-                  </Form.Group>
-                  <Form.Group className="mb-3">
-                    <Form.Control
-                      name="email"
-                      onChange={updatedInput}
-                      type="email"
-                      placeholder="email"
-                    />
-                  </Form.Group>
-                  <Form.Group className="mb-3">
-                    <Form.Control
-                      name="password"
-                      onChange={updatedInput}
-                      type="password"
-                      placeholder="password"
-                    />
-                  </Form.Group>
-                  <Form.Group className="mb-3">
-                    <Button onClick={registered} variant="warning">
-                      Submit
-                    </Button>
-                  </Form.Group>
-                </Form>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-      </Container>
+    <div className="login-container">
+      <h2>Login</h2>
+      <form onSubmit={handleLogin}>
+        <label htmlFor="email">Email:</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+        />
+
+        <label htmlFor="password">Password:</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          value={formData.password}
+          onChange={handleChange}
+        />
+
+        <button type="submit">Login</button>
+      </form>
     </div>
   );
-};
+}
 
-export default Register;
+export default LoginForm;

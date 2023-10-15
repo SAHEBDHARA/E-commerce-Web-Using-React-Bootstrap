@@ -11,7 +11,6 @@ function CartModal({ show, handleClose }) {
     return total + currentItem.price * currentItem.quantity;
   }, 0);
 
-  console.log(totalCartPrice)
 
   return (
     <Modal show={show} onHide={handleClose}>

@@ -1,27 +1,45 @@
-// CartContext.js
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
-const CartContext = createContext();
+const AuthContext = createContext();
 
-export const CartProvider = ({ children }) => {
-  const [cart, setCart] = useState([]);
+export function useAuth() {
+  return useContext(AuthContext);
+}
 
-  const addToCart = (product) => {
-    setCart([...cart, product]);
+export function AuthProvider({ children }) {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  console.log(user)
+  const login = (credentials) => {
+    if (credentials.username && credentials.password) {
+      setUser(credentials.username);
+      localStorage.setItem('authUser', credentials.username);
+    }
   };
 
-  const removeFromCart = (product) => {
-    const updatedCart = cart.filter((item) => item !== product);
-    setCart(updatedCart);
+  const logout = () => {
+    setUser(null);
+    localStorage.removeItem('authUser');
+  };
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem('authUser');
+    if (storedUser) {
+      setUser(storedUser);
+    }
+    setLoading(false);
+  }, []);
+
+  const value = {
+    user,
+    login,
+    logout,
   };
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart }}>
-      {children}
-    </CartContext.Provider>
+    <AuthContext.Provider value={value}>
+      {!loading && children}
+    </AuthContext.Provider>
   );
-};
-
-export const useCart = () => {
-  return useContext(CartContext);
-};
+}
